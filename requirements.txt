@@ -16,3 +16,13 @@ pillow
 ipywidgets
 google-auth
 google-cloud-aiplatform
+pypdf
+# yt_dlp
+# pydub
+# librosa
+youtube-transcript-api
+pytube
+pythainlp
+wtpsplit
+torch
+chromadb
