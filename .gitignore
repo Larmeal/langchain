@@ -178,3 +178,4 @@ pyrightconfig.json
 # Database
 *.db
 *.pdf
+chroma
