@@ -27,3 +27,4 @@ wtpsplit
 torch
 chromadb
 duckduckgo-search
+wikipedia
