@@ -1,10 +1,10 @@
 from langchain_core.prompts import (
     HumanMessagePromptTemplate, ChatPromptTemplate, MessagesPlaceholder
 )
-from langchain.memory import ConversationBufferMemory
+from langchain.memory import ConversationBufferMemory, FileChatMessageHistory, ConversationSummaryMemory
 from langchain.chains.llm import LLMChain
 from langchain_community.chat_models.ollama import ChatOllama
-from langchain_community.chat_message_histories import ChatMessageHistory
+from langchain_community.chat_message_histories import ChatMessageHistory, FileChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 
 llm = ChatOllama(model="llama3")
@@ -49,12 +49,20 @@ llm = ChatOllama(model="llama3")
 #     )
 
 #     print(output)
+
 #################################################################################################
 ######################################## OLD VERSIONS ###########################################
 
-memory = ConversationBufferMemory(
+# memory = ConversationBufferMemory(
+#     chat_memory=FileChatMessageHistory("test/src/chat_history_crane.json"),
+#     memory_key="messages",
+#     return_messages=True
+# )
+
+memory = ConversationSummaryMemory(
     memory_key="messages",
-    return_messages=True
+    return_messages=True,
+    llm=llm
 )
 
 prompt = ChatPromptTemplate(
@@ -72,7 +80,8 @@ prompt = ChatPromptTemplate(
 chain = LLMChain(
     llm=llm,
     prompt=prompt,
-    memory=memory
+    memory=memory,
+    verbose=True,
 )
 
 while True:
@@ -84,4 +93,4 @@ while True:
         }
     )
 
-    print(output)
+    print(output["text"])
