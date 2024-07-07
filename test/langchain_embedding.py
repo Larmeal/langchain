@@ -4,8 +4,11 @@ from langchain_community.vectorstores.chroma import Chroma
 from langchain_community.chat_models.ollama import ChatOllama
 from langchain.chains.retrieval_qa.base import RetrievalQA
 from langchain.text_splitter import CharacterTextSplitter
+import langchain
 
-llm = ChatOllama(model="llama3")
+langchain.debug = True
+
+llm = ChatOllama(model="llama3", temperature=0)
 
 embeddings = OllamaEmbeddings(model="llama3")
 
@@ -20,7 +23,7 @@ docs = loader.load_and_split(
     text_splitter=text_splitter
 )
 
-query = "What is an interesting fact about the English language?"
+query = "What is an interesting fact about the planets?"
 
 ################################ Create the vectors database #################################
 
@@ -56,7 +59,7 @@ retriever = db.as_retriever()
 chain = RetrievalQA.from_chain_type(
     llm=llm,
     retriever=retriever,
-    chain_type="stuff"
+    chain_type="refine"
 )
 
 response = chain.invoke(
